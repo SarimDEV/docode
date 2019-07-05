@@ -1,11 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const morgan = require('mogran');
+const morgan = require('morgan');
 
 const app = express();
 
 
 //Routers
+const tasks = require('./routes/task');
+const auth = require('./routes/auth');
 
 
 //Setting up mongoose
@@ -16,8 +18,13 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => console.log('Successful entered the mainframe'));
 
 //Setup
-app.use(mogran('dev'));
+app.use(morgan('dev'));
 app.use(express.json());
+
+
+app.use('/api/tasks', tasks);
+app.use('/api/user', auth);
+
 
 
 
@@ -25,7 +32,7 @@ app.use(express.json());
 
 
 //Listen to app
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log(`docode app listening on PORT: ${PORT}`);
