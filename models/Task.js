@@ -1,7 +1,22 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-const TaskSchema = new Schema({
+
+const CommentSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    body: {
+        type: String,
+        required: true
+    },
+    points: {
+        type: Number,
+        default: 0
+    }
+})
+
+const TaskSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -10,7 +25,7 @@ const TaskSchema = new Schema({
         type: String,
         required: true
     },
-    likes_count: {
+    like_count: {
         type: Number,
         default: 0
     },
@@ -18,11 +33,11 @@ const TaskSchema = new Schema({
         type: String,
         required: true
     },
-    comments: {
-        type: Array
-    },
+    comments: [CommentSchema],
     date: {
         type: Date,
         default: Date.now
     }
-})
+});
+
+module.exports = Task = mongoose.model('task', TaskSchema)

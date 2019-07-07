@@ -8,6 +8,7 @@ const app = express();
 //Routers
 const tasks = require('./routes/task');
 const auth = require('./routes/auth');
+const post = require('./routes/posts')
 
 
 //Setting up mongoose
@@ -24,6 +25,7 @@ app.use(express.json());
 
 app.use('/api/tasks', tasks);
 app.use('/api/user', auth);
+app.use('/api/posts', post);
 
 
 
