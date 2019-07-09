@@ -34,7 +34,7 @@ app.use('/api/posts', post);
 
 
 //Listen to app
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
     console.log(`docode app listening on PORT: ${PORT}`);
