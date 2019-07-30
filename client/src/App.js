@@ -1,43 +1,58 @@
-import React, {Component} from 'react'
-import axios from 'axios'
-import Nav from './components/Nav'
+import React, { Component } from "react";
+import axios from "axios";
 
+import LoginForm from './components/LoginForm'
+import NavBar from './components/NavBar'
+import FrontPage from "./FrontPage";
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      counter: 0,
-      tasks: []
+      isLoading: true,
+      isAuthenticated: false,
+      user: '',
+      errorMessage: ''
     }
-    this.onClick = this.onClick.bind(this)
+    this.verifyToken = this.verifyToken.bind(this)
   }
 
-  onClick() {
-    this.setState(prevState => {
-      return {
-        counter: prevState.counter + 1
-      }
-    })
-  }
-
-  componentDidMount() {
-    axios("tasks")
+  verifyToken() {
+    axios('/verifytoken')
       .then(res => {
         this.setState({
-          tasks: res.data
+          isLoading: false,
+          isAuthenticated: true,
+          user: res.data.user
+        })
+      })
+      .catch(err => {
+        this.setState({
+          isLoading: false,
+          isAuthenticated: false,
+          errorMessage: err.response.data.msg
         })
       })
   }
 
+  componentDidMount() {
+    this.verifyToken()
+  }
 
   render() {
-    return(
+    return (
+      !this.state.isLoading &&
       <div>
-        <Nav />
+        <NavBar verify={this.verifyToken} isAuthenticated={this.state.isAuthenticated} />
+        {this.state.isAuthenticated === false ?
+          <div>
+            <LoginForm verify={this.verifyToken} />
+          </div> :
+          <div><FrontPage /></div>
+        }
       </div>
-    )
-  };
+    );
+  }
 }
 
 export default App;

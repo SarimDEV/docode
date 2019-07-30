@@ -21,6 +21,20 @@ const TaskSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    type: {
+        category: {
+            type: String,
+            required: true,
+            enum: ['project', 'assignment'],
+            default: 'assignment'
+        },
+        difficulty: {
+            type: String,
+            required: true,
+            enum: ['easy', 'medium', 'hard', 'very hard'],
+            default: 'easy'
+        }
+    },
     description: {
         type: String,
         required: true

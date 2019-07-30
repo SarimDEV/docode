@@ -81,14 +81,19 @@ router.post("/login", async (req, res) => {
             msg: "Invalid credentals!"
         });
     }
+    const payload = { name: user.name, email: user.email }
 
-    const token = jwt.sign({
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        admin: user.admin
-    }, secret);
-    res.header("auth-token", token).json(token);
+    const token = jwt.sign(payload, secret, {
+        expiresIn: '1h'
+    });
+    res.cookie('token', token, { htppOnly: true })
+        .sendStatus(200);
+
+});
+
+router.post("/logout", async (req, res) => {
+    res.clearCookie('token', { htppOnly: true }).sendStatus(200);
+
 });
 
 router.get("/", (req, res) => {
