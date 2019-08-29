@@ -4,7 +4,7 @@ const Joi = require('@hapi/joi');
 registerValidation = (body) => {
     const validationSchema = {
         name: Joi.string().min(3).required(),
-        email: Joi.string().min(3).required().email(),
+        email: Joi.string().required().email(),
         password: Joi.string().min(6).required()
     };
 
@@ -13,7 +13,7 @@ registerValidation = (body) => {
 
 loginValidation = (body) => {
     const validationSchema = {
-        name: Joi.string().required(),
+        email: Joi.string().required().email(),
         password: Joi.string().required()
     };
 

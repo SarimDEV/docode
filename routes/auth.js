@@ -67,7 +67,7 @@ router.post("/login", async (req, res) => {
     }
 
     const user = await User.findOne({
-        name: req.body.name
+        email: req.body.email
     });
     if (!user) {
         return res.status(400).json({
